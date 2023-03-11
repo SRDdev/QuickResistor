@@ -44,7 +44,7 @@ public class register {
     }
 
     public static void main(String[] args) {
-        String[] band_colors = {"red", "green", "red", "silver"};
+        String[] band_colors = {"blue", "green", "red", "silver"};
         detect(band_colors);
     }
 }

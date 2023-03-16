@@ -1,31 +1,28 @@
-import java.util.HashMap;
-
+import java.util.LinkedList;
 // Parent class Demo
-public class demo {
+public class Demo {
 
     // Private instance variables for color and tolerance codes
-    private HashMap<String, Integer> color_codes;
-    private HashMap<String, Integer> tolerance_codes;
+    private LinkedList<String> color_codes;
+    private LinkedList<String> tolerance_codes;
 
     // Constructor to initialize the color and tolerance codes
-    public Resistor() {
-        color_codes = new HashMap<>() {{
-            put("black", 0);
-            put("brown", 1);
-            put("red", 2);
-            put("orange", 3);
-            put("yellow", 4);
-            put("green", 5);
-            put("blue", 6);
-            put("violet", 7);
-            put("gray", 8);
-            put("white", 9);
-        }};
+    public Demo() {
+        color_codes = new LinkedList<>();
+        color_codes.add("black");
+        color_codes.add("brown");
+        color_codes.add("red");
+        color_codes.add("orange");
+        color_codes.add("yellow");
+        color_codes.add("green");
+        color_codes.add("blue");
+        color_codes.add("violet");
+        color_codes.add("gray");
+        color_codes.add("white");
 
-        tolerance_codes = new HashMap<>() {{
-            put("golden", 5);
-            put("silver", 10);
-        }};
+        tolerance_codes = new LinkedList<>();
+        tolerance_codes.add("golden");
+        tolerance_codes.add("silver");
     }
 
     // Public method to calculate resistance based on band colors
@@ -35,9 +32,14 @@ public class demo {
         String band2 = band_colors[1];
         String band3 = band_colors[2];
 
+        // Get the index of the color in the linked list
+        int index1 = color_codes.indexOf(band1);
+        int index2 = color_codes.indexOf(band2);
+        int index3 = color_codes.indexOf(band3);
+
         // Calculate the register value and multiplier based on the color codes
-        int register_value = Integer.parseInt(String.format("%d%d", color_codes.get(band1), color_codes.get(band2)));
-        int multiplier = (int) Math.pow(10, color_codes.get(band3));
+        int register_value = Integer.parseInt(String.format("%d%d", index1, index2));
+        int multiplier = (int) Math.pow(10, index3);
 
         // Calculate and return the resistance value
         if(register_value > 10 && multiplier >= Math.pow(10, 2) && multiplier < Math.pow(10, 6)) {
@@ -54,32 +56,13 @@ public class demo {
         }
     }
 
-    // Public method to get tolerance value based on color
-    public int getTolerance(String color) {
-        return tolerance_codes.getOrDefault(color, -1);
+    public static void main(String[] args) {
+        String[] colors = {"brown", "black", "orange"};
+        FixedDemo resistor = new FixedDemo(5);
+        double resistance = resistor.calculateResistance(colors);
+        int tolerance = resistor.getToleranceCodes().getOrDefault("golden", -1);
+    
+        System.out.printf("Resistance: %.2f ohms +/- %d%%\n", resistance, tolerance);
     }
-
-}
-
-// Child class FixedDemo, inherits from parent class Demo
-public class FixedDemo extends Demo {
-
-    // Private instance variable for tolerance value
-    private int tolerance;
-
-    // Constructor to initialize the tolerance value
-    public FixedDemo(int tolerance) {
-        this.tolerance = tolerance;
-    }
-
-    // Getter method for tolerance value
-    public int getTolerance() {
-        return tolerance;
-    }
-
-    // Setter method for tolerance value
-    public void setTolerance(int tolerance) {
-        this.tolerance = tolerance;
-    }
-
+    
 }

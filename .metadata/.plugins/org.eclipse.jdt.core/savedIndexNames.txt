@@ -1,4 +1,0 @@
-INDEX VERSION 1.131+G:\Desktop(2023)\Projects\ML\Computer Vision\Registor_Value Calculation\.metadata\.plugins\org.eclipse.jdt.core
-1865797976.index
-1480862177.index
-1637731351.index

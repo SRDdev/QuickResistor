@@ -1,6 +1,0 @@
-package com.opencvread;
-
-public class Read {
-	System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-
-}

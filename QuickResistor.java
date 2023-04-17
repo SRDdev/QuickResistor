@@ -25,6 +25,7 @@ public class QuickResistor {
         tolerance_codes = new LinkedList<>();
         tolerance_codes.add("golden");
         tolerance_codes.add("silver");
+        tolerance_codes.add("None");
 
         value_codes = new LinkedList<>();
         for (int i = 1; i <= 10; i++) {
@@ -32,17 +33,30 @@ public class QuickResistor {
         }
     }
 
-    // Public method to calculate resistance based on band colors
-    public void calculateResistance(String[] band_colors, String tolerance_color) {
-        // Get the color codes for each band
-        String band1 = band_colors[0];
-        String band2 = band_colors[1];
-        String band3 = band_colors[2];
 
+    public String[] getBandColors(String[] band_colors) {
+        String[] result;
+        if (band_colors.length == 4) {
+            // For 4-band resistors, ignore the 4th band
+            result = new String[]{band_colors[0], band_colors[1], band_colors[2], band_colors[3]};
+        } else if (band_colors.length == 5) {
+            // For 5-band resistors, include all 5 bands
+            result = new String[]{band_colors[0], band_colors[1], band_colors[2], band_colors[3], band_colors[4]};
+        } else {
+            // Invalid input - throw an exception or return null, depending on your use case
+            throw new IllegalArgumentException("Invalid number of bands: " + band_colors.length);
+        }
+        return result;
+    }
+    
+    
+    // Public method to calculate resistance based on band colors
+    public void calculateResistance(String[] result, String tolerance_color) {
+        
         // Get the index of the color in the linked list
-        int index1 = color_codes.indexOf(band1);
-        int index2 = color_codes.indexOf(band2);
-        int index3 = color_codes.indexOf(band3);
+        int index1 = color_codes.indexOf(result[0]);
+        int index2 = color_codes.indexOf(result[1]);
+        int index3 = color_codes.indexOf(result[2]);
 
         //Get the values in the second linkedlist for these indexes
         int value1 = value_codes.get(index1);
@@ -68,17 +82,70 @@ public class QuickResistor {
         }
     }
 
+    // Polymorphism
+    public void calculateResistance(String[] result, String band6_color, String tolerance_color) {
+
+        // Get the color codes for each band
+        String band1 = band_colors[0];
+        String band2 = band_colors[1];
+        String band3 = band_colors[2];
+        String band4 = band_colors[3];
+
+        // Get the index of the color in the linked list
+        int index1 = color_codes.indexOf(band1);
+        int index2 = color_codes.indexOf(band2);
+        int index3 = color_codes.indexOf(band3);
+        int index4 = color_codes.indexOf(band4);
+    
+        //Get the values in the second linkedlist for these indexes
+        int value1 = value_codes.get(index1);
+        int value2 = value_codes.get(index2);
+        int value3 = value_codes.get(index3);
+        int value4 = value_codes.get(index4);
+    
+        //Update the values
+        value1 = value1 - 1;
+        value2 = value2 - 1;
+        value3 = value3 - 1;
+        value4 = value4 - 1;
+    
+        int register_value = Integer.parseInt(String.format("%d%d%d", value1,value2,value3));
+        int multiplier = (int) Math.pow(10, value4);
+        double calculated = (double) register_value * multiplier;
+
+    
+        if (tolerance_color.equals("golden")) {
+            System.out.println("Resistance: " + calculated + " ohms +5%");
+        } else if (tolerance_color.equals("silver")) {
+            System.out.println("Resistance: " + calculated + " ohms +10%");
+        } else if (tolerance_color.equals("None")) {
+            System.out.println("Resistance: " + calculated + " ohms +10%");
+            System.out.println("OR");
+            System.out.println("Resistance: " + calculated + " ohms +5%");
+        } else {
+            System.out.println("Invalid tolerance color!");
+        }
+    }
+    
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         QuickResistor finalObject = new QuickResistor();
 
-        String[] band_colors = new String[3];
-        String[] valid_colors = {"black", "brown", "red", "orange", "yellow", "green", "blue", "violet", "gray", "white"};
-
-
         //convert this into a function of polymorphism in which if the input has 5 inputs the function changes
+        System.out.println("--------------------------------------------------------------------------------------");
+        System.out.println("QuickResistor is a Java tool that allows users to quickly enter the color bands on a resistor and get instantly calculated values");
+        System.out.println("Created by :\n 1.Shreyas Dixit \n 2.Vedika Bhat  \n 3.Arya More  \n 4.Ameya Kottawar ");
         System.out.println("------------------------------ Welcome to QuickResistor ------------------------------");
-        for (int i = 0; i < 3; i++) {
+        System.out.println("                                                                                      ");
+        System.out.println("Which resistor do you have \n 4 band resistor \n 5 band resistor");
+        System.out.println("Enter the value (4 or 5) : ");
+        
+        int n = scanner.nextInt();
+        
+        String[] band_colors = new String[n];
+        String[] valid_colors = {"black", "brown", "red", "orange", "yellow", "green", "blue", "violet", "gray", "white"};
+        
+        for (int i = 0; i < n-1; i++) {
             while (true) {
                 System.out.print("Enter color for band " + (i + 1) + ": ");
                 String color = scanner.nextLine().toLowerCase();

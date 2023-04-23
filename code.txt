@@ -111,7 +111,33 @@ public class QuickResistor {
             System.out.println("Invalid tolerance color!");
         }
     }
-    
+    // Private method to check if a color is valid
+    private boolean isValidColor(String color, String[] valid_colors) {
+    for (String valid_color : valid_colors) {
+        if (color.equals(valid_color)) {
+            return true;
+        }
+    }
+    return false;
+    }
+    //------------------------------------------------------------------------------------------------------------------------------//
+    public void Menu(int x)
+    {
+        if(x==0)
+        {
+            return 0;
+        }
+        else if (x==1)
+        {
+            return 1;
+        }
+        else 
+        {
+            return "Enter valid input";
+        }
+    }
+    //------------------------------------------------------------------------------------------------------------------------------//
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         QuickResistor finalObject = new QuickResistor();
@@ -159,15 +185,11 @@ public class QuickResistor {
     int k = 0;
     if(n==4){finalObject.calculateResistance(band_colors, tolerance_color);}
     else{finalObject.calculateResistance(band_colors, k ,tolerance_color);}
-    
-}
-// Private method to check if a color is valid
-private boolean isValidColor(String color, String[] valid_colors) {
-    for (String valid_color : valid_colors) {
-        if (color.equals(valid_color)) {
-            return true;
-        }
-    }
-    return false;
+
+    //-------------------------Menu-----------------------//
+    System.out.println("Do you want to continue ? Press 0 to continue\n Press 1 to exit");
+    int c=Scanner.nextInt();
+    Menu(c);
+    System.out.println(c);
 }
 }
